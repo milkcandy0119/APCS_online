@@ -1,7 +1,7 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-vector<map<int,int>,int> val;
+map<pair<int,int>, int> val;
 vector<int> x[70000],y[70000];
 vector<int> rx[70000],ry[70000];
 int ans=-1,N=35000,dir=1;//1右 2下 3左 4上
@@ -32,24 +32,27 @@ void move(int X,int Y){
     else if(dir == 2 or dir == 4){
       if(x[X].size()){
         auto it = (dir == 2)
-        ? upper_bound(x[X].begin(), x[X].end(), Y)
-        : upper_bound(x[X].begin(), x[X].end(), Y, greater<int>());
+        ? upper_bound(rx[X].begin(), rx[X].end(), Y, greater<int>())
+        : upper_bound(x[X].begin(), x[X].end(), Y);
         if(it != x[X].end() && it != rx[X].end()){
-          if(val[{*it,X}] == 1){
+          if(val[{X,*it}] == 1){
             dir = (dir == 2) ? 1 : 3;
           }
-          else if (val[{*it, Y}] == 0) {
+          else if (val[{X,*it}] == 0) {
             dir = (dir == 2) ? 3 : 1;
           }
           Y = *it;
           op = true;
           continue;
-      }  
+        } 
+      }
     }
   }
 }
 
-int main(){
+int main() {
+  int n;
+  cin >> n;
 	for (int i = 0; i < n; i++) {
     int a, b, c;
     cin >> a >> b >> c;
@@ -68,4 +71,4 @@ int main(){
   }
   move(N,N);
   cout << ans;
-} 
+}
